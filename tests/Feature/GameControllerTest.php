@@ -24,6 +24,11 @@ class GameControllerTest extends TestCase
         $response = $this->postJson('/api/game/play', []);
 
         $response->assertStatus(422);
+
+        $errors = $response->json()['errors'];
+
+        $this->assertArrayHasKey('name', $errors);
+        $this->assertArrayHasKey('cards', $errors);
     }
 
     public function testPlayNameAlphaDash(): void
@@ -34,6 +39,10 @@ class GameControllerTest extends TestCase
         ]);
 
         $response->assertStatus(422);
+
+        $errors = $response->json()['errors'];
+
+        $this->assertArrayHasKey('name', $errors);
     }
 
     public function testPlayCardsMin(): void
@@ -44,6 +53,10 @@ class GameControllerTest extends TestCase
         ]);
 
         $response->assertStatus(422);
+
+        $errors = $response->json()['errors'];
+
+        $this->assertArrayHasKey('cards', $errors);
     }
 
     public function testPlayCardsMax(): void
@@ -54,6 +67,10 @@ class GameControllerTest extends TestCase
         ]);
 
         $response->assertStatus(422);
+
+        $errors = $response->json()['errors'];
+
+        $this->assertArrayHasKey('cards', $errors);
     }
 
     public function testPlayCardsDistinct(): void
@@ -64,6 +81,10 @@ class GameControllerTest extends TestCase
         ]);
 
         $response->assertStatus(422);
+
+        $errors = $response->json()['errors'];
+
+        $this->assertArrayHasKey('cards', $errors);
     }
 
     public function testPlayCardsIn(): void
@@ -74,5 +95,9 @@ class GameControllerTest extends TestCase
         ]);
 
         $response->assertStatus(422);
+
+        $errors = $response->json()['errors'];
+
+        $this->assertArrayHasKey('cards', $errors);
     }
 }

@@ -49,7 +49,13 @@ class GameService
         );
 
         if ($validator->fails()) {
-            throw ValidationException::withMessages($validator->errors()->all());
+            // throw new ValidationException($validator);
+            $errorMsgs = collect($validator->errors()->toArray())->mapWithKeys(function($item, $key) {
+                $key = explode('.', $key)[0];
+                return [$key => $item];
+            })->toArray();
+
+            throw ValidationException::withMessages($errorMsgs);
         }
 
         $computerCards = $this->generateComputerCards(count($data['cards']));
