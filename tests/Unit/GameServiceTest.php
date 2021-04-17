@@ -4,9 +4,10 @@ namespace Tests\Unit;
 
 use App\Models\Game;
 use App\Services\GameService;
+use App\Services\PlayerService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
-use Mockery\MockInterface;
+use Mockery;
 use Tests\TestCase;
 
 class GameServiceTest extends TestCase
@@ -20,7 +21,7 @@ class GameServiceTest extends TestCase
         parent::setUp();
 
         $this->gameService = app(GameService::class);
-    }
+    }   
 
     public function test_play(): void
     {
@@ -56,12 +57,13 @@ class GameServiceTest extends TestCase
 
     public function test_play_score(): void
     {
-        $mock = $this->partialMock(GameService::class, function (MockInterface $mock) {
-            $mock->shouldAllowMockingProtectedMethods()
-                ->shouldReceive('generateComputerCards')
-                ->once()
-                ->andReturn(['2', '3', '4']);
-        });
+         $mock = Mockery::mock(GameService::class, [new PlayerService])
+            ->makePartial();
+
+        $mock->shouldAllowMockingProtectedMethods()
+            ->shouldReceive('generateComputerCards')
+            ->once()
+            ->andReturn(['2', '3', '4']);
 
         $result = $mock->play([
             'name' => 'player1',

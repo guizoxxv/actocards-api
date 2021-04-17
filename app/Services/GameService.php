@@ -9,6 +9,13 @@ use Illuminate\Validation\ValidationException;
 
 class GameService
 {
+    private PlayerService $playerService;
+
+    public function __construct(PlayerService $playerService)
+    {
+        $this->playerService = $playerService;
+    }
+
     private array $availableCards = [
         '2',
         '3',
@@ -49,11 +56,12 @@ class GameService
         );
 
         if ($validator->fails()) {
-            // throw new ValidationException($validator);
-            $errorMsgs = collect($validator->errors()->toArray())->mapWithKeys(function($item, $key) {
-                $key = explode('.', $key)[0];
-                return [$key => $item];
-            })->toArray();
+            $errorMsgs = collect($validator->errors()->toArray())
+                ->mapWithKeys(function($item, $key) {
+                    $key = explode('.', $key)[0];
+
+                    return [$key => $item];
+                })->toArray();
 
             throw ValidationException::withMessages($errorMsgs);
         }
@@ -65,6 +73,7 @@ class GameService
 
     protected function generateComputerCards(int $size): array
     {
+        // return ['2', '3', '4'];
         // TODO: Use average to generate a comparable computer hand
         
         $currentAvailableCards = array_slice($this->availableCards, -$size);
@@ -80,9 +89,11 @@ class GameService
         
         $computerScore = count($playerCards) - $playerScore;
 
+        $player = $this->playerService->firstOrCreate($player);
+
         $game = new Game;
 
-        $game->player = $player;
+        $game->player_id = $player->id;
         $game->player_score = $playerScore;
         $game->computer_score = $computerScore;
         $game->win = $playerScore > $computerScore;
