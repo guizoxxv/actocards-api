@@ -6,7 +6,6 @@ use App\Models\Game;
 use App\Services\GameService;
 use App\Services\PlayerService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Validation\ValidationException;
 use Mockery;
 use Tests\TestCase;
 
@@ -33,28 +32,6 @@ class GameServiceTest extends TestCase
         $this->assertInstanceOf(Game::class, $result);
     }
 
-    public function test_play_name_alpha_dash(): void
-    {
-        $this->expectException(ValidationException::class);
-
-        $this->gameService->play([
-            'name' => 'player#1',
-            'cards' => ['2', '3', '4'],
-        ]);
-    }
-
-    public function test_play_computer_cards_length(): void
-    {
-        $result = $this->gameService->play([
-            'name' => 'player1',
-            'cards' => ['2', '3', '4'],
-        ]);
-
-        $hands = json_decode($result->hands);
-
-        $this->assertEquals(3, count($hands->computer));
-    }
-
     public function test_play_score(): void
     {
          $mock = Mockery::mock(GameService::class, [new PlayerService])
@@ -72,47 +49,5 @@ class GameServiceTest extends TestCase
 
         $this->assertEquals(2, $result->player_score);
         $this->assertEquals(1, $result->computer_score);
-    }
-
-    public function test_play_cards_required(): void
-    {
-        $this->expectException(ValidationException::class);
-
-        $this->gameService->play([
-            'name' => 'player1',
-        ]);
-    }
-
-    public function test_play_cards_max(): void
-    {
-        $this->expectException(ValidationException::class);
-
-        $this->gameService->play([
-            'name' => 'player1',
-            'cards' => [
-                ...$this->gameService->getAvailableCards(),
-                '1',
-            ],
-        ]);
-    }
-
-    public function test_play_cards_distinct(): void
-    {
-        $this->expectException(ValidationException::class);
-
-        $this->gameService->play([
-            'name' => 'player1',
-            'cards' => ['2', '2'],
-        ]);
-    }
-
-    public function test_play_cards_in(): void
-    {
-        $this->expectException(ValidationException::class);
-
-        $this->gameService->play([
-            'name' => 'player1',
-            'cards' => ['1'],
-        ]);
     }
 }

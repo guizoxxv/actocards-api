@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Player;
+use Illuminate\Database\Eloquent\Collection;
 
 class PlayerService
 {
@@ -13,8 +14,11 @@ class PlayerService
         ]);
     }
 
-    public function leaderboard(): array
+    public function leaderboard(): Collection
     {
-        return [];
+        return Player::orderBy('wins', 'desc')
+            ->orderBy('games')
+            ->limit(10)
+            ->get();
     }
 }

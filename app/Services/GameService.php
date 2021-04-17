@@ -3,9 +3,6 @@
 namespace App\Services;
 
 use App\Models\Game;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 
 class GameService
 {
@@ -16,56 +13,8 @@ class GameService
         $this->playerService = $playerService;
     }
 
-    private array $availableCards = [
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        'J',
-        'Q',
-        'K',
-        'A',
-    ];
-
-    public function getAvailableCards(): array
-    {
-        return $this->availableCards;
-    }
-
     public function play(array $data): Game
     {
-        $validator = Validator::make(
-            $data,
-            [
-                'name' => 'required|alpha_dash|max:10',
-                'cards' => 'required|array|min:1,max:13',
-                'cards.*' => [
-                    'required',
-                    'distinct:strict',
-                    Rule::in($this->availableCards),
-                ],
-            ],
-            [
-                'cards.array' => 'Invalid input',
-            ],
-        );
-
-        if ($validator->fails()) {
-            $errorMsgs = collect($validator->errors()->toArray())
-                ->mapWithKeys(function($item, $key) {
-                    $key = explode('.', $key)[0];
-
-                    return [$key => $item];
-                })->toArray();
-
-            throw ValidationException::withMessages($errorMsgs);
-        }
-
         $computerCards = $this->generateComputerCards(count($data['cards']));
 
         return $this->saveGame($data['name'], $data['cards'], $computerCards);
@@ -73,10 +22,9 @@ class GameService
 
     protected function generateComputerCards(int $size): array
     {
-        // return ['2', '3', '4'];
         // TODO: Use average to generate a comparable computer hand
         
-        $currentAvailableCards = array_slice($this->availableCards, -$size);
+        $currentAvailableCards = array_slice(config('constants.cards'), -$size);
 
         shuffle($currentAvailableCards);
 
@@ -121,6 +69,6 @@ class GameService
     }
 
     private function getCardValue(string $card): int {
-        return array_search($card, $this->availableCards, true);
+        return array_search($card, config('constants.cards'), true);
     }
 }
