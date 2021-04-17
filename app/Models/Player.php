@@ -14,6 +14,8 @@ class Player extends Model
         'name',
         'games',
         'wins',
+        'losses',
+        'ties',
     ];
 
     public function games()

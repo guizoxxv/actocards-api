@@ -32,7 +32,7 @@ class GameServiceTest extends TestCase
         $this->assertInstanceOf(Game::class, $result);
     }
 
-    public function test_play_score(): void
+    public function test_result(): void
     {
          $mock = Mockery::mock(GameService::class, [new PlayerService])
             ->makePartial();
@@ -40,14 +40,17 @@ class GameServiceTest extends TestCase
         $mock->shouldAllowMockingProtectedMethods()
             ->shouldReceive('generateComputerCards')
             ->once()
-            ->andReturn(['2', '3', '4']);
+            ->andReturn(['2', '3', '4', '5']);
 
         $result = $mock->play([
             'name' => 'player1',
-            'cards' => ['3', '4', '2'],
+            'cards' => ['3', '4', '2', '5'],
         ]);
 
         $this->assertEquals(2, $result->player_score);
         $this->assertEquals(1, $result->computer_score);
+        $this->assertEquals(true, $result->win);
+        $this->assertEquals(false, $result->lose);
+        $this->assertEquals(false, $result->tie);
     }
 }

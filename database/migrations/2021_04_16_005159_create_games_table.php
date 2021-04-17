@@ -21,7 +21,9 @@ class CreateGamesTable extends Migration
             $table->json('hands');
             $table->unsignedInteger('player_score');
             $table->unsignedInteger('computer_score');
-            $table->boolean('win');
+            $table->boolean('win')->default(false);
+            $table->boolean('lose')->default(false);
+            $table->boolean('tie')->default(false);
             $table->timestamps();
         });
     }

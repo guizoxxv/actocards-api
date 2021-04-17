@@ -18,6 +18,8 @@ class CreatePlayersTable extends Migration
             $table->string('name');
             $table->unsignedInteger('games')->default(0);
             $table->unsignedInteger('wins')->default(0);
+            $table->unsignedInteger('losses')->default(0);
+            $table->unsignedInteger('ties')->default(0);
             $table->timestamps();
         });
     }

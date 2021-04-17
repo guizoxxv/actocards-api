@@ -15,6 +15,8 @@ class Game extends Model
         'player_score',
         'computer_score',
         'win',
+        'lose',
+        'tie',
     ];
 
     protected static function booted()
@@ -26,6 +28,14 @@ class Game extends Model
 
             if ($game->win) {
                 $player->wins = $player->wins + 1;
+            }
+
+            if ($game->lose) {
+                $player->losses = $player->losses + 1;
+            }
+
+            if ($game->tie) {
+                $player->ties = $player->ties + 1;
             }
 
             $player->save();

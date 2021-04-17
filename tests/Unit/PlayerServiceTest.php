@@ -11,6 +11,8 @@ class PlayerServiceTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected bool $seed = true;
+
     private PlayerService $playerService;
 
     public function setUp(): void
@@ -26,4 +28,12 @@ class PlayerServiceTest extends TestCase
 
         $this->assertInstanceOf(Player::class, $result);
     }
+
+    // public function test_leaderboard(): void
+    // {
+    //     $result = $this->playerService->leaderboard();
+    //     dd($result->all());
+
+    //     // $this->assertInstanceOf(Player::class, $result);
+    // }
 }
