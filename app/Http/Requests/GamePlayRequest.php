@@ -36,13 +36,12 @@ class GamePlayRequest extends FormRequest
         }
     }
 
-    public function message(): array
+    public function messages(): array
     {
         return [
             'cards.array' => 'Invalid input',
         ];
     }
-
 
     public function withValidator(Validator $validator)
     {
@@ -53,10 +52,6 @@ class GamePlayRequest extends FormRequest
 
                     return [$key => $item];
                 })->toArray();
-            
-            $validator->setValueNames([
-                'cards.*' => 'opa!',
-            ]);
 
             throw ValidationException::withMessages($errorMsgs);
         }
