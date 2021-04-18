@@ -13,7 +13,7 @@ class GameControllerTest extends TestCase
     {
         $response = $this->postJson('/api/game/play', [
             'name' => 'player1',
-            'cards' => '2,3,4',
+            'cards' => '2 3 4',
         ]);
 
         $response->assertStatus(201);
@@ -35,7 +35,7 @@ class GameControllerTest extends TestCase
     {
         $response = $this->postJson('/api/game/play', [
             'name' => 'player#1',
-            'cards' => '2,3,4',
+            'cards' => '2 3 4',
         ]);
 
         $response->assertStatus(422);
@@ -63,7 +63,7 @@ class GameControllerTest extends TestCase
     {
         $response = $this->postJson('/api/game/play', [
             'name' => 'player1',
-            'cards' => '2,3,4,5,6,7,8,9,10,J,Q,K,A,1',
+            'cards' => '2 3 4 5 6 7 8 9 10 J Q K A 1',
         ]);
 
         $response->assertStatus(422);
@@ -77,7 +77,7 @@ class GameControllerTest extends TestCase
     {
         $response = $this->postJson('/api/game/play', [
             'name' => 'player1',
-            'cards' => '2,2',
+            'cards' => '2 2',
         ]);
 
         $response->assertStatus(422);
@@ -91,7 +91,7 @@ class GameControllerTest extends TestCase
     {
         $response = $this->postJson('/api/game/play', [
             'name' => 'player1',
-            'cards' => '1,2,3',
+            'cards' => '1 2 3',
         ]);
 
         $response->assertStatus(422);

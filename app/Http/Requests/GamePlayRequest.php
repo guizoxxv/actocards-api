@@ -31,7 +31,7 @@ class GamePlayRequest extends FormRequest
     {
         if (is_string($this->cards)) {
             $this->merge([
-                'cards' => explode(',', $this->cards),
+                'cards' => explode(' ', $this->cards),
             ]);
         }
     }
