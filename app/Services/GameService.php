@@ -16,7 +16,8 @@ class GameService
     public function play(array $data): Game
     {
         $playerCards = $data['cards'];
-        $computerCards = $this->generateComputerCards(count($playerCards));
+
+        $computerCards = $this->generateComputerCards($playerCards);
 
         $scores = $this->calculateScore($playerCards, $computerCards);
 
@@ -35,15 +36,22 @@ class GameService
         );
     }
 
-    protected function generateComputerCards(int $size): array
+    protected function generateComputerCards(array $playerCards): array
     {
-        // TODO: Use average to generate a comparable computer hand
-        
-        $currentAvailableCards = array_slice(config('constants.cards'), -$size);
+        $cardsCollection = collect(config('constants.cards'));
 
-        shuffle($currentAvailableCards);
+        $intersectKeys = $cardsCollection->intersect($playerCards)->keys();
 
-        return $currentAvailableCards;
+        $max = $intersectKeys->max();
+        $min = $intersectKeys->min();
+
+        return $cardsCollection
+            ->filter(function ($value, $key) use ($min, $max) {
+                return $key >= $min && $key <= $max;
+            })
+            ->random(count($playerCards))
+            ->shuffle()
+            ->toArray();
     }
 
     private function saveGame(

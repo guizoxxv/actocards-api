@@ -49,7 +49,7 @@ class GameControllerTest extends TestCase
     {
         $response = $this->postJson('/api/game/play', [
             'name' => 'player1',
-            'cards' => '',
+            'cards' => '2 3',
         ]);
 
         $response->assertStatus(422);
@@ -77,7 +77,7 @@ class GameControllerTest extends TestCase
     {
         $response = $this->postJson('/api/game/play', [
             'name' => 'player1',
-            'cards' => '2 2',
+            'cards' => '2 2 3',
         ]);
 
         $response->assertStatus(422);

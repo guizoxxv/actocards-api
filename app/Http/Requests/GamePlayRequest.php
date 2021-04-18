@@ -18,7 +18,7 @@ class GamePlayRequest extends FormRequest
     {
         return [
             'name' => 'required|alpha_dash|max:10',
-            'cards' => 'required|array|min:1,max:13',
+            'cards' => 'required|array|min:3,max:13',
             'cards.*' => [
                 'required',
                 'distinct:strict',

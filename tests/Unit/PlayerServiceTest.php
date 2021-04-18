@@ -4,14 +4,13 @@ namespace Tests\Unit;
 
 use App\Models\Player;
 use App\Services\PlayerService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PlayerServiceTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected bool $seed = true;
 
     private PlayerService $playerService;
 
@@ -29,11 +28,13 @@ class PlayerServiceTest extends TestCase
         $this->assertInstanceOf(Player::class, $result);
     }
 
-    // public function test_leaderboard(): void
-    // {
-    //     $result = $this->playerService->leaderboard();
-    //     dd($result->all());
+    public function test_leaderboard(): void
+    {
+        $this->seed();
 
-    //     // $this->assertInstanceOf(Player::class, $result);
-    // }
+        $result = $this->playerService->leaderboard();
+
+        $this->assertInstanceOf(Collection::class, $result);
+        $this->assertEquals(3, $result->count());
+    }
 }
