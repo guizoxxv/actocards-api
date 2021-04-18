@@ -2,7 +2,7 @@
 
 Backend for a cards game.
 
-> Frontend in https://github.com/oliveira/actocards-app
+> Frontend in https://github.com/oliveiragsd/actocards-app
 
 ## Tools
 * [PHP](https://www.php.net/) v8.0.2
@@ -11,7 +11,6 @@ Backend for a cards game.
 * [Docker](https://www.docker.com/) v20.10.6
 * [docker-compose](https://docs.docker.com/compose/) v1.28.6
 * [Composer](https://getcomposer.org/) v2.0.11
-* [RAML](https://raml.org/) v1.0
 
 ## Installation
 
