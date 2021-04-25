@@ -4,6 +4,7 @@ services:
     image: guizo/docker-laravel:php8.0-apache-postgres
     ports:
       - 8001:80
+      - 6001:6001
     volumes:
       - ./:/var/www/html
     environment:

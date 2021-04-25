@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UpdateLeaderboard;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -39,6 +40,8 @@ class Game extends Model
             }
 
             $player->save();
+
+            event(resolve(UpdateLeaderboard::class));
         });
     }
 
