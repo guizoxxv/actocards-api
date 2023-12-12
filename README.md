@@ -2,7 +2,7 @@
 
 Backend for a cards game.
 
-> Frontend in https://github.com/oliveiragsd/actocards-app
+> Frontend in https://github.com/guizoxxv/actocards-app
 
 ## Tools
 * [PHP](https://www.php.net/) v8.0.2
